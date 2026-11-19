@@ -1,308 +1,694 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الألعاب - PS Store</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #00e676;
-            margin-bottom: 30px;
-        }
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .game-card {
-            background: #1e1e1e;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            transition: transform 0.2s;
-        }
-        .game-card:hover {
-            transform: translateY(-5px);
-        }
-        .game-card img {
-            width: 100%;
-            height: 260px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        .game-card h3 {
-            margin: 15px 0 10px;
-            font-size: 18px;
-        }
-        .download-btn {
-            background-color: #00e676;
-            border: none;
-            padding: 12px 20px;
-            color: #000000;
-            font-weight: bold;
-            font-size: 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.2s;
-        }
-        .download-btn:hover {
-            background-color: #00c853;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-        .modal-content {
-            background: #252525;
-            padding: 22px;
-            border-radius: 12px;
-            text-align: center;
-            width: 100%;
-            max-width: 450px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
-        }
-        .choice-question {
-            background: #1b2838;
-            border-right: 4px solid #00e676;
-            padding: 10px 12px;
-            border-radius: 6px;
-            margin: 10px 0 14px;
-            font-size: 15px;
-            font-weight: bold;
-            color: #e0f7fa;
-        }
-        .modal-preview-img {
-            width: 100%;
-            max-height: 180px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        .video-box {
-            margin: 12px 0;
-            background: #181818;
-            padding: 8px;
-            border-radius: 8px;
-        }
-        .video-box video,
-        .video-box iframe {
-            width: 100%;
-            height: 200px;
-            border: none;
-            border-radius: 6px;
-        }
-        .ad-box {
-            background: #333333;
-            border: 1px dashed #ffd54f;
-            padding: 12px;
-            margin: 15px 0;
-            border-radius: 8px;
-            color: #ffd54f;
-            font-size: 14px;
-        }
-        .link-btn {
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-            margin: 10px 0;
-            background: #007acc;
-            color: white;
-            text-decoration: none;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .link-btn:hover {
-            background: #005999;
-        }
-        .our-app-btn {
-            background: #00a86b;
-        }
-        .our-app-btn:hover {
-            background: #008554;
-        }
-        .ps-btn {
-            background: #00439c;
-        }
-        .ps-btn:hover {
-            background: #003070;
-        }
-        .close-btn {
-            background: #ff5252;
-            border: none;
-            padding: 10px 20px;
-            color: white;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 10px;
-            width: 100%;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>PS Store Hub</title>
+  <style>
+    :root {
+      --bg-main: #0d1117;
+      --bg-card: #161b22;
+      --bg-elevated: #1f2630;
+      --border: #2b3440;
+      --accent: #2dd4bf;
+      --accent-hover: #14b8a6;
+      --accent-soft: rgba(45, 212, 191, 0.14);
+      --gold: #fbbf24;
+      --danger: #f87171;
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: Tahoma, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      padding-bottom: 78px;
+      min-height: 100vh;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(13, 17, 23, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .logo {
+      font-size: 17px;
+      font-weight: bold;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-btn {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 999px;
+      padding: 6px 11px;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .pill-btn.gold {
+      background: rgba(251, 191, 36, 0.14);
+      color: var(--gold);
+      border-color: rgba(251, 191, 36, 0.35);
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    /* صندوق إضافة رابط رئيسي */
+    .source-drawer {
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+      display: none;
+    }
+
+    .source-drawer.open {
+      display: block;
+    }
+
+    .source-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: block;
+      line-height: 1.5;
+    }
+
+    .source-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .source-input {
+      flex: 1;
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      outline: none;
+      direction: ltr;
+    }
+
+    .source-input:focus {
+      border-color: var(--accent);
+    }
+
+    .fetch-btn {
+      background: var(--accent);
+      color: #061311;
+      border: none;
+      border-radius: 10px;
+      padding: 0 16px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .fetch-btn:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .source-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .clear-source-btn {
+      background: none;
+      border: none;
+      color: var(--danger);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .consoles-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 14px 16px 6px;
+      scrollbar-width: none;
+    }
+
+    .consoles-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .chip:active {
+      transform: scale(0.95);
+    }
+
+    .chip.active {
+      background: var(--accent);
+      color: #061311;
+      border-color: var(--accent);
+    }
+
+    .section-info {
+      padding: 8px 16px 2px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 10px 16px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 13px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(45, 212, 191, 0.45);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 8px;
+    }
+
+    .fav-icon {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 2px 4px;
+    }
+
+    .fav-icon.saved {
+      color: var(--gold);
+    }
+
+    .game-title {
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 1.45;
+      margin-top: 8px;
+      color: var(--text-main);
+      word-break: break-word;
+    }
+
+    .game-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .dl-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #061311;
+      border: none;
+      border-radius: 11px;
+      padding: 9px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+
+    .dl-btn:active {
+      transform: scale(0.96);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(22, 27, 34, 0.96);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+      z-index: 30;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .nav-btn.active {
+      color: var(--accent);
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .overlay.show {
+      display: flex;
+    }
+
+    .sheet {
+      width: 100%;
+      max-width: 500px;
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border);
+      border-radius: 22px 22px 0 0;
+      padding: 20px 18px 26px;
+      animation: slideUp 0.25s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-title {
+      font-size: 15px;
+      font-weight: bold;
+      color: var(--text-main);
+      word-break: break-word;
+    }
+
+    .sheet-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 4px 0 16px;
+    }
+
+    .option-card {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      text-align: right;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    .option-card:hover {
+      border-color: var(--accent);
+    }
+
+    .option-title {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .option-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .close-btn {
+      width: 100%;
+      background: var(--border);
+      color: var(--text-main);
+      border: none;
+      border-radius: 12px;
+      padding: 11px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-    <h1>منصة الألعاب</h1>
-    <div class="game-grid" id="gameGrid"></div>
-
-    <div class="modal" id="downloadModal">
-        <div class="modal-content">
-            <h3 id="modalTitle">اسم اللعبة</h3>
-            <div class="choice-question" id="choiceQuestion">
-                تريد تنزلها من هذا التطبيق، لو من التطبيق الثاني، لو من تطبيقنا؟
-            </div>
-
-            <img id="modalImage" class="modal-preview-img" src="" alt="">
-
-            <!-- الفيديو التوضيحي للعبة -->
-            <div class="video-box" id="videoContainer"></div>
-
-            <!-- مساحة الإعلان ودعم المطور -->
-            <div class="ad-box" id="adContainer">
-                <p style="margin: 0 0 5px;"><strong>ادعم المطور لاستمرار المنصة ❤️</strong></p>
-                <small>ضع كود إعلانك هنا (AdSense / Adsterra / إعلان مباشر)</small>
-            </div>
-
-            <!-- خيارات التحميل التلقائية غير المحدودة -->
-            <div id="linksContainer"></div>
-
-            <button class="close-btn" onclick="closeModal()">إغلاق</button>
-        </div>
+  <header>
+    <div class="top-bar">
+      <div class="logo">🎮 <span>PS</span> Store Hub</div>
+      <div class="top-actions">
+        <button class="pill-btn gold" onclick="toggleSourceDrawer()">🔗 جلب من رابط</button>
+        <button class="pill-btn" id="ipBadge" onclick="configureIp()">IP: غير محدد</button>
+      </div>
     </div>
+    <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن لعبة أو منصة (مثل PS4)..." />
+  </header>
 
-    <script>
-        const games = [
-            {
-                name: 'God of War Ragnarök',
-                image: 'https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/4M1jnSSzHNZnqjDA6XqOIVzD.png',
-                video: 'https://www.youtube.com/embed/EE-4Gvwhsle',
-                links: [
-                    { name: 'تنزيل من تطبيقنا المباشر', url: 'https://example.com/our-app/gow', style: 'our-app' },
-                    { name: 'تنزيل من التطبيق الأول (AMD)', url: 'https://example.com/amd/gow' },
-                    { name: 'تنزيل من التطبيق الثاني (AD1)', url: 'https://example.com/ad1/gow' },
-                    { name: 'إرسال إلى PlayStation مباشرة', type: 'ps4' },
-                    { name: 'خيار تحميل إضافي 4', url: 'https://example.com/extra4/gow' }
-                ]
-            },
-            {
-                name: 'Grand Theft Auto V',
-                image: 'https://image.api.playstation.com/vulcan/ap/rnd/202205/1116/CQxDAciUKvM1ezbTqpPqiH40.png',
-                video: 'https://www.youtube.com/embed/QkkoHAzjnUs',
-                links: [
-                    { name: 'تنزيل من تطبيقنا المباشر', url: 'https://example.com/our-app/gtav', style: 'our-app' },
-                    { name: 'تنزيل من التطبيق الأول (AMD)', url: 'https://example.com/amd/gtav' },
-                    { name: 'تنزيل من التطبيق الثاني (AD1)', url: 'https://example.com/ad1/gtav' },
-                    { name: 'إرسال إلى PlayStation مباشرة', type: 'ps4' }
-                ]
-            }
-        ];
+  <div class="source-drawer" id="sourceDrawer">
+    <span class="source-label">ألصق رابط الصفحة الرئيسية أو رابط قائمة الألعاب (JSON / HTML / Directory) لاستخراج الروابط الفرعية تلقائياً:</span>
+    <div class="source-row">
+      <input type="url" id="masterUrlInput" class="source-input" placeholder="https://example.com/ps4-games/" />
+      <button class="fetch-btn" id="fetchBtn" onclick="fetchSubLinks()">استخراج</button>
+    </div>
+    <select id="defaultPlatformSelect" class="source-input" style="width:100%; direction:rtl; margin-bottom:6px;">
+      <option value="AUTO">تحديد المنصة تلقائياً من اسم الرابط</option>
+      <option value="PS5">تعيين الكل كـ PS5</option>
+      <option value="PS4">تعيين الكل كـ PS4</option>
+      <option value="PS3">تعيين الكل كـ PS3</option>
+      <option value="PS2">تعيين الكل كـ PS2</option>
+      <option value="PS1">تعيين الكل كـ PS1</option>
+      <option value="PSP">تعيين الكل كـ PSP</option>
+    </select>
+    <div class="source-meta">
+      <span id="sourceStatus">جاهز لاستقبال الرابط الرئيسي</span>
+      <button class="clear-source-btn" onclick="resetExtractedGames()">حذف المستخرجة</button>
+    </div>
+  </div>
 
-        function renderGames() {
-            const grid = document.getElementById('gameGrid');
-            grid.innerHTML = '';
-            games.forEach((game, index) => {
-                grid.innerHTML += `
-                    <div class="game-card">
-                        <img src="${game.image}" alt="${game.name}">
-                        <h3>${game.name}</h3>
-                        <button class="download-btn" onclick="openModal(${index})">تنزيل</button>
-                    </div>
-                `;
+  <div class="consoles-bar" id="consolesBar"></div>
+
+  <div class="section-info">
+    <span id="currentLabel">جميع الألعاب</span>
+    <span id="countLabel">0 عنصر</span>
+  </div>
+
+  <div class="grid" id="gamesGrid"></div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="tabHome" onclick="setTab('home')">الرئيسية</button>
+    <button class="nav-btn" id="tabFav" onclick="setTab('fav')">المفضلة</button>
+  </nav>
+
+  <div class="overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="sheet-title" id="mTitle">اسم اللعبة</div>
+      <div class="sheet-sub" id="mSub">المنصة</div>
+
+      <button class="option-card" onclick="handlePhoneDownload()">
+        <div class="option-title">تنزيل إلى الهاتف</div>
+        <div class="option-desc">فتح الرابط المباشر على الموبايل أو مدير التحميل</div>
+      </button>
+
+      <button class="option-card" onclick="handlePsSend()">
+        <div class="option-title">إرسال إلى جهاز PlayStation</div>
+        <div class="option-desc" id="mPsDesc">تجهيز الإرسال عبر الشبكة المحلية</div>
+      </button>
+
+      <button class="option-card" onclick="copyGameUrl()">
+        <div class="option-title">نسخ رابط اللعبة</div>
+        <div class="option-desc" id="mUrlPreview" style="direction:ltr; text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">...</div>
+      </button>
+
+      <button class="close-btn" onclick="closeModal()">إغلاق</button>
+    </div>
+  </div>
+
+  <script>
+    const platforms = ["الكل", "PS5", "PS4", "PS3", "PS2", "PS1", "PSP"];
+
+    const defaultGames = [
+      { id: 1, name: "Red Dead Redemption 2", platform: "PS4", info: "نسخة كاملة", url: "https://example.com/rdr2.pkg" },
+      { id: 2, name: "God of War Ragnarök", platform: "PS4", info: "معرّبة", url: "https://example.com/gowr.pkg" },
+      { id: 3, name: "Grand Theft Auto V", platform: "PS4", info: "تحديث + مودات", url: "https://example.com/gtav.pkg" },
+      { id: 4, name: "Ghost of Yōtei", platform: "PS5", info: "نسخة حديثة", url: "https://example.com/ghost.pkg" },
+      { id: 5, name: "The Last of Us", platform: "PS3", info: "كلاسيكية", url: "https://example.com/tlou.iso" },
+      { id: 6, name: "GTA San Andreas", platform: "PS2", info: "أرشيف", url: "https://example.com/gtasa.iso" },
+      { id: 7, name: "Crash Team Racing", platform: "PS1", info: "أرشيف", url: "https://example.com/ctr.bin" },
+      { id: 8, name: "God of War: Chains of Olympus", platform: "PSP", info: "محمول", url: "https://example.com/gow.iso" }
+    ];
+
+    let extractedGames = JSON.parse(localStorage.getItem("ps_hub_extracted") || "[]");
+    let games = extractedGames.length > 0 ? extractedGames : [...defaultGames];
+    let selectedPlatform = "الكل";
+    let activeTab = "home";
+    let currentGame = null;
+    let savedFavs = JSON.parse(localStorage.getItem("ps_hub_favs") || "[]");
+    let targetIp = localStorage.getItem("ps_hub_ip") || "";
+
+    const savedSourceUrl = localStorage.getItem("ps_hub_source_url") || "";
+    if (savedSourceUrl) {
+      document.getElementById("masterUrlInput").value = savedSourceUrl;
+    }
+
+    function toggleSourceDrawer() {
+      document.getElementById("sourceDrawer").classList.toggle("open");
+    }
+
+    function refreshIpText() {
+      const badge = document.getElementById("ipBadge");
+      badge.textContent = targetIp ? `IP: ${targetIp}` : "تعيين IP";
+    }
+
+    function configureIp() {
+      const input = prompt("أدخل عنوان IP الخاص بجهاز PlayStation على الشبكة (مثال: 192.168.1.100):", targetIp);
+      if (input !== null) {
+        targetIp = input.trim();
+        localStorage.setItem("ps_hub_ip", targetIp);
+        refreshIpText();
+      }
+    }
+
+    function detectPlatform(text, fallback) {
+      if (fallback !== "AUTO") return fallback;
+      const upper = text.toUpperCase();
+      if (upper.includes("PS5")) return "PS5";
+      if (upper.includes("PS4") || upper.includes(".PKG")) return "PS4";
+      if (upper.includes("PS3")) return "PS3";
+      if (upper.includes("PS2")) return "PS2";
+      if (upper.includes("PS1") || upper.includes("PSX")) return "PS1";
+      if (upper.includes("PSP")) return "PSP";
+      return "PS4";
+    }
+
+    function cleanFileName(rawName, href) {
+      let name = (rawName || "").trim();
+      if (!name || name === "../" || name.length < 2) {
+        const parts = href.split("/").filter(Boolean);
+        name = decodeURIComponent(parts[parts.length - 1] || "ملف لعبة");
+      }
+      return name
+        .replace(/\.(pkg|iso|bin|zip|rar|7z|chd|pbp)$/i, "")
+        .replace(/[_-]+/g, " ")
+        .trim();
+    }
+
+    async function fetchTextWithFallback(url) {
+      try {
+        const direct = await fetch(url);
+        if (direct.ok) return await direct.text();
+      } catch (e) {}
+
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+      const proxied = await fetch(proxyUrl);
+      if (!proxied.ok) throw new Error("تعذر الوصول إلى الرابط");
+      return await proxied.text();
+    }
+
+    async function fetchSubLinks() {
+      const input = document.getElementById("masterUrlInput");
+      const status = document.getElementById("sourceStatus");
+      const btn = document.getElementById("fetchBtn");
+      const forcedPlatform = document.getElementById("defaultPlatformSelect").value;
+      const masterUrl = input.value.trim();
+
+      if (!masterUrl) {
+        status.textContent = "الرجاء إدخال الرابط الرئيسي أولاً";
+        return;
+      }
+
+      btn.disabled = true;
+      status.textContent = "جاري قراءة الرابط واستخراج الألعاب...";
+
+      try {
+        const rawText = await fetchTextWithFallback(masterUrl);
+        let parsed = [];
+
+        // محاولة قراءة الرابط كـ JSON أولاً
+        try {
+          const jsonData = JSON.parse(rawText);
+          const list = Array.isArray(jsonData) ? jsonData : (jsonData.games || jsonData.items || []);
+          parsed = list
+            .filter(item => item && (item.url || item.link || item.href))
+            .map((item, idx) => {
+              const itemUrl = new URL(item.url || item.link || item.href, masterUrl).href;
+              const title = item.name || item.title || cleanFileName("", itemUrl);
+              return {
+                id: Date.now() + idx,
+                name: title,
+                platform: detectPlatform(`${title} ${item.platform || ""} ${itemUrl}`, forcedPlatform),
+                info: item.info || item.size || "مستخرج من القائمة",
+                url: itemUrl
+              };
             });
-        }
+        } catch (jsonErr) {
+          // قراءة الرابط كصفحة HTML واستخراج الروابط الفرعية
+          const doc = new DOMParser().parseFromString(rawText, "text/html");
+          const anchors = Array.from(doc.querySelectorAll("a[href]"));
+          const seenUrls = new Set();
 
-        function renderVideo(videoUrl) {
-            const videoBox = document.getElementById('videoContainer');
-            if (!videoUrl) {
-                videoBox.style.display = 'none';
-                videoBox.innerHTML = '';
-                return;
+          anchors.forEach((a, idx) => {
+            const rawHref = a.getAttribute("href");
+            if (!rawHref || rawHref.startsWith("#") || rawHref.startsWith("javascript:") || rawHref === "../") return;
+
+            let fullUrl = "";
+            try {
+              fullUrl = new URL(rawHref, masterUrl).href;
+            } catch (e) {
+              return;
             }
-            videoBox.style.display = 'block';
-            if (videoUrl.includes('youtube.com/embed/') || videoUrl.includes('youtu.be/')) {
-                const embedUrl = videoUrl.replace('youtu.be/', 'www.youtube.com/embed/');
-                videoBox.innerHTML = `<iframe src="${embedUrl}" allowfullscreen></iframe>`;
-            } else {
-                videoBox.innerHTML = `<video src="${videoUrl}" controls playsinline></video>`;
+
+            if (fullUrl === masterUrl || seenUrls.has(fullUrl)) return;
+
+            const text = a.textContent.trim();
+            const isGameFile = /\.(pkg|iso|bin|zip|rar|7z|chd|pbp)(\?|$)/i.test(fullUrl);
+            const hasUsefulTitle = text.length >= 3 && !/^(home|back|parent|index|login|register|تواصل|الرئيسية)/i.test(text);
+
+            if (isGameFile || hasUsefulTitle) {
+              seenUrls.add(fullUrl);
+              const title = cleanFileName(text, fullUrl);
+              const extMatch = fullUrl.match(/\.(pkg|iso|bin|zip|rar|7z|chd|pbp)/i);
+              parsed.push({
+                id: Date.now() + idx,
+                name: title,
+                platform: detectPlatform(`${title} ${fullUrl}`, forcedPlatform),
+                info: extMatch ? `ملف ${extMatch[1].toUpperCase()}` : "رابط فرعي",
+                url: fullUrl
+              });
             }
+          });
         }
 
-        function openModal(index) {
-            const game = games[index];
-            document.getElementById('modalTitle').innerText = game.name;
-            document.getElementById('choiceQuestion').innerText =
-                `لعبة "${game.name}": تريد تنزلها من هذا التطبيق، لو من التطبيق الثاني، لو من تطبيقنا؟`;
-
-            const modalImg = document.getElementById('modalImage');
-            modalImg.src = game.image;
-            modalImg.alt = game.name;
-
-            renderVideo(game.video);
-
-            const container = document.getElementById('linksContainer');
-            container.innerHTML = '';
-
-            game.links.forEach(link => {
-                if (link.type === 'ps4') {
-                    container.innerHTML += `
-                        <button onclick="promptIp('${game.name}')" class="link-btn ps-btn">
-                            ${link.name}
-                        </button>`;
-                } else {
-                    const extraClass = link.style === 'our-app' ? 'our-app-btn' : '';
-                    container.innerHTML += `
-                        <a href="${link.url}" class="link-btn ${extraClass}" target="_blank">
-                            ${link.name}
-                        </a>`;
-                }
-            });
-
-            document.getElementById('downloadModal').style.display = 'flex';
+        if (parsed.length === 0) {
+          status.textContent = "لم يتم العثور على روابط ألعاب فرعية داخل هذا الرابط.";
+        } else {
+          extractedGames = parsed;
+          games = [...extractedGames];
+          localStorage.setItem("ps_hub_extracted", JSON.stringify(extractedGames));
+          localStorage.setItem("ps_hub_source_url", masterUrl);
+          status.textContent = `تم استخراج ${parsed.length} رابط فرعي بنجاح!`;
+          renderGames();
         }
+      } catch (err) {
+        status.textContent = "تعذر سحب البيانات من هذا الرابط (قد يكون محمياً ضد السحب المباشر).";
+      } finally {
+        btn.disabled = false;
+      }
+    }
 
-        function closeModal() {
-            document.getElementById('videoContainer').innerHTML = '';
-            document.getElementById('downloadModal').style.display = 'none';
-        }
+    function resetExtractedGames() {
+      localStorage.removeItem("ps_hub_extracted");
+      localStorage.removeItem("ps_hub_source_url");
+      extractedGames = [];
+      games = [...defaultGames];
+      document.getElementById("masterUrlInput").value = "";
+      document.getElementById("sourceStatus").textContent = "تمت العودة للقائمة الافتراضية";
+      renderGames();
+    }
 
-        function promptIp(gameName) {
-            const ip = prompt(`أدخل عنوان IP الخاص بجهاز PlayStation لإرسال لعبة ${gameName} (مثال: 192.168.1.100):`);
-            if (ip) {
-                alert(`جاري إرسال ${gameName} إلى جهاز PlayStation على العنوان: ${ip}`);
-                closeModal();
-            }
-        }
+    function renderPlatforms() {
+      const bar = document.getElementById("consolesBar");
+      bar.innerHTML = "";
+      platforms.forEach(p => {
+        const btn = document.createElement("button");
+        btn.className = "chip" + (selectedPlatform === p ? " active" : "");
+        btn.textContent = p;
+        btn.onclick = () => {
+          selectedPlatform = p;
+          renderPlatforms();
+          renderGames();
+        };
+        bar.appendChild(btn);
+      });
+    }
 
-        renderGames();
-    </script>
-</body>
-</html>
+    function toggleFav(id, event) {
+      event.stopPropagat
